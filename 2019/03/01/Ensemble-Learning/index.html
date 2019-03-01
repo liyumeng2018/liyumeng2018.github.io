@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="集成学习机器学习中的一类方法，有时也被称为“多分类器系统（multi-classifier system）”、基于委员会的学习（Committee-based learning）。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进">
+<meta name="description" content="集成学习机器学习中的一类方法，有时也被称为多分类器系统、基于委员会的学习。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进行预测；训练时需要用训练样本集依次训练出这些弱学习器。典型的集成学习算法是随机森林和boosting算法，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ensemble Learning">
+<meta property="og:title" content="随机森林算法梳理">
 <meta property="og:url" content="http://yoursite.com/2019/03/01/Ensemble-Learning/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="集成学习机器学习中的一类方法，有时也被称为“多分类器系统（multi-classifier system）”、基于委员会的学习（Committee-based learning）。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进">
+<meta property="og:description" content="集成学习机器学习中的一类方法，有时也被称为多分类器系统、基于委员会的学习。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进行预测；训练时需要用训练样本集依次训练出这些弱学习器。典型的集成学习算法是随机森林和boosting算法，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-01T04:50:21.402Z">
+<meta property="og:updated_time" content="2019-03-01T04:54:38.360Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ensemble Learning">
-<meta name="twitter:description" content="集成学习机器学习中的一类方法，有时也被称为“多分类器系统（multi-classifier system）”、基于委员会的学习（Committee-based learning）。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进">
+<meta name="twitter:title" content="随机森林算法梳理">
+<meta name="twitter:description" content="集成学习机器学习中的一类方法，有时也被称为多分类器系统、基于委员会的学习。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进行预测；训练时需要用训练样本集依次训练出这些弱学习器。典型的集成学习算法是随机森林和boosting算法，">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>Ensemble Learning | Hexo</title>
+  <title>随机森林算法梳理 | Hexo</title>
   
 
 
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ensemble Learning</h1>
+          <h1 class="post-title" itemprop="name headline">随机森林算法梳理</h1>
         
 
         <div class="post-meta">
@@ -299,7 +299,7 @@
       
 
       
-        <h3 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h3><p>机器学习中的一类方法，有时也被称为“多分类器系统（multi-classifier system）”、基于委员会的学习（Committee-based learning）。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进行预测；训练时需要用训练样本集依次训练出这些弱学习器。典型的集成学习算法是随机森林和boosting算法，而AdaBoost算法是boosting算法的一种实现版本。</p>
+        <h3 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h3><p>机器学习中的一类方法，有时也被称为多分类器系统、基于委员会的学习。它对多个机器学习模型进行组合形成一个精度更高的模型，参与组合的模型称为弱学习器（weak learner,常指泛化性能略优于随机猜测的学习器，例如在二分类问题精度略高于50%的分类器）。在预测时使用弱学习器模型联合起来进行预测；训练时需要用训练样本集依次训练出这些弱学习器。典型的集成学习算法是随机森林和boosting算法，而AdaBoost算法是boosting算法的一种实现版本。</p>
 <p>一般来说集成学习可以分为三大类：</p>
 <ul>
 <li>用于减少方差的bagging</li>
@@ -376,7 +376,7 @@
 <p> <strong>1，n_estimators</strong>=10：决策树的个数，越多越好，但是性能就会越差，至少100左右（具体数字忘记从哪里来的了）可以达到可接受的性能和误差率。  </p>
 <p> <strong>2，bootstrap</strong>=True：是否有放回的采样。  </p>
 <p> <strong>3，oob_score</strong>=False：oob（out of  band，带外）数据，即：在某次决策树训练中没有被bootstrap选中的数据。多单个模型的参数训练，我们知道可以用cross  validation（cv）来进行，但是特别消耗时间，而且对于随机森林这种情况也没有大的必要，所以就用这个数据对决策树模型进行验证，算是一个简单的交叉验证。性能消耗小，但是效果不错。   </p>
-<p> <strong>4，n_jobs</strong>=1：并行job个数。这个在ensemble中非常重要，尤其是bagging（而非boosting，因为boosting的每次迭代之间有影响，所以很难进行并行化），因为可以并行从而提高性能。1=不并行；n：n个并行；-1：CPU有多少core，就启动多少job。</p>
+<p> <strong>4，n_jobs</strong>=1：并行job个数。这个在集成算法中非常重要，尤其是bagging（而非boosting，因为boosting的每次迭代之间有影响，所以很难进行并行化），因为可以并行从而提高性能。1=不并行；n：n个并行；-1：CPU有多少core，就启动多少job。</p>
 <p> <strong>5，warm_start</strong>=False：热启动，决定是否使用上次调用该类的结果然后增加新的。  </p>
 <p> <strong>6，class_weight</strong>=None：各个label的权重。  </p>
 <p>进行预测可以有几种形式：</p>
