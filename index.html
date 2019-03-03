@@ -300,13 +300,17 @@
       
         
           
-            <h3 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h3><p>Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：<strong>从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。</strong><br><img src="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png" alt="4"><br>这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题</p>
-<h3 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h3><p>为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为<br>$$r_{ti} = -\bigg[\frac{\partial L(y_i, f(x_i)))}{\partial f(x_i)}\bigg]<em>{f(x) = f</em>{t-1}\;\; (x)}$$<br>利用(xi,rti)(i=1,2,..m),我们可以拟合一颗CART回归树，得到了第t颗回归树，其对应的叶节点区域Rtj,j=1,2,…,J。其中J为叶子节点的个数。<br>　　针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值ctj如下：<br>$$c_{tj} = \underbrace{arg\; min}<em>{c}\sum\limits</em>{x_i \in R_{tj}} L(y_i,f_{t-1}(x_i) +c)$$</p>
+            <h3 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h3><p>Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：<strong>从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。</strong><br><img src="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png" alt="1"><br>这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题</p>
+<h3 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h3><p>为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppjs3vjij30bc02jgli.jpg" alt="2"></p>
+<p>利用(xi,rti)(i=1,2,..m),我们可以拟合一颗CART回归树，得到了第t颗回归树，其对应的叶节点区域Rtj,j=1,2,…,J。其中J为叶子节点的个数。<br>针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值ctj如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppm9yyqej30c8036jrb.jpg" alt="7"><br>这样我们就得到了本轮的决策树拟合函数如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppne2d7gj308z02ot8k.jpg" alt="8"><br>从而本轮最终得到的强学习器的表达式如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppo3ktk8j30am01z3yd.jpg" alt="9"><br>通过损失函数的负梯度来拟合，我们找到了一种通用的拟合损失误差的办法，这样无轮是分类问题还是回归问题，我们通过其损失函数的负梯度的拟合，就可以用GBDT来解决我们的分类回归问题。区别仅仅在于损失函数不同导致的负梯度不同而已。</p>
 <h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>对于分类算法，其损失函数一般有对数损失函数和指数损失函数两种:<br>a) 如果是指数损失函数，则损失函数表达式为     </p>
 <p>L(y,f(x))=exp(−yf(x))  </p>
-<p>b) 如果是对数损失函数，分为二元分类和多元分类两种。<br>  对于回归算法，常用损失函数有如下4种:<br>a)均方差，这个是最常见的回归损失函数<br>L(y,f(x))=(y−f(x))^2<br>b)绝对损失，这个损失函数也很常见<br>L(y,f(x))=|y−f(x)|<br>对应负梯度误差为：<br>sign(yi−f(xi))<br>c)Huber损失，它是均方差和绝对损失的折衷产物，对于远离中心的异常点，采用绝对损失，而中心附近的点采用均方差。这个界限一般用分位数点度量。损失函数如下：  </p>
-<p>　　　　对应的负梯度误差为：</p>
-<h2 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h2><h3 id="二分类，多分类"><a href="#二分类，多分类" class="headerlink" title="二分类，多分类"></a>二分类，多分类</h3><h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><p>针对GBDT正则化，我们通过子采样比例方法和定义步长v方法来防止过拟合。</p>
+<p>b) 如果是对数损失函数，分为二元分类和多元分类两种。<br>  对于回归算法，常用损失函数有如下4种:<br>a)均方差，这个是最常见的回归损失函数<br>L(y,f(x))=(y−f(x))^2<br>b)绝对损失，这个损失函数也很常见<br>L(y,f(x))=|y−f(x)|<br>对应负梯度误差为：<br>sign(yi−f(xi))<br>c)Huber损失，它是均方差和绝对损失的折衷产物，对于远离中心的异常点，采用绝对损失，而中心附近的点采用均方差。这个界限一般用分位数点度量。损失函数如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqxxyebmj30ep026wei.jpg" alt="15">   </p>
+<p>对应的负梯度误差为：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqyuqwfpj30fe031mx5.jpg" alt="16"><br>d) 分位数损失。它对应的是分位数回归的损失函数，表达式为<br> <img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0prdm1kl3j30g902lmx3.jpg" alt="17"><br> 其中θ为分位数，需要我们在回归前指定。对应的负梯度误差为：<br> <img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pretko4mj30a002e0sl.jpg" alt="18"><br> 对于Huber损失和分位数损失，主要用于健壮回归，也就是减少异常点对损失函数的影响。</p>
+<h2 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h2><p>　输入是训练集样本,T={(x,y1),(x2,y2),…(xm,ym)},最大迭代次数T, 损失函数L。输出是强学习器f(x)<br> 初始化弱学习器<br> <img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppsadsjfj30at048gli.jpg" alt="8"><br> 对迭代轮数t=1,2,…T有：<br>a)对样本i=1,2，…m，计算负梯度<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppwft9vij30bc02f0sn.jpg" alt="9"><br>b)利用(xi,rti)(i=1,2,..m), 拟合一颗CART回归树,得到第t颗回归树，其对应的叶子节点区域为Rtj,j=1,2,…,J。其中J为回归树t的叶子节点的个数。<br>c) 对叶子区域j =1,2,..J,计算最佳拟合值<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqn6f56tj30d102ljra.jpg" alt="10"><br>d) 更新强学习器<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqnxqy4rj30c803n746.jpg" alt="11"><br>得到强学习器f(x)的表达式<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqocmpmbj30e102sa9z.jpg" alt="12"></p>
+<h3 id="二分类，多分类"><a href="#二分类，多分类" class="headerlink" title="二分类，多分类"></a>二分类，多分类</h3><p>GBDT的分类算法从思想上和GBDT的回归算法没有区别，但是由于样本输出不是连续的值，而是离散的类别，导致我们无法直接从输出类别去拟合类别输出的误差。<br>为了解决这个问题，主要有两个方法，一个是用指数损失函数，此时GBDT退化为Adaboost算法。另一种方法是用类似于逻辑回归的对数似然损失函数的方法。也就是说，我们用的是类别的预测概率值和真实概率值的差来拟合损失。本文仅讨论用对数似然损失函数的GBDT分类。而对于对数似然损失函数，我们又有二元分类和多元分类的区别。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqtxirz1j30o00git9z.jpg" alt="13"></p>
+<p><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0pqv8lz5wj30ss0ocmz6.jpg" alt="14"><br>除了负梯度计算和叶子节点的最佳负梯度拟合的线性搜索，多元GBDT分类和二元GBDT分类以及GBDT回归算法过程相同。</p>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><p>针对GBDT正则化，我们通过子采样比例方法和定义步长v方法来防止过拟合。</p>
 <p><strong>子采样比例:</strong> 通过不放回抽样的子采样比例（subsample），取值为(0,1]。如果取值为1，则全部样本都使用。如果取值小于1，利用部分样本去做GBDT的决策树拟合。选择小于1的比例可以减少方差，防止过拟合，但是会增加样本拟合的偏差。因此取值不能太低，推荐在[0.5, 0.8]之间。</p>
 <p><strong>定义步长v:</strong> 针对弱学习器的迭代，我们定义步长v，取值为(0,1]。对于同样的训练集学习效果，较小的v意味着我们需要更多的弱学习器的迭代次数。通常我们用步长和迭代最大次数一起来决定算法的拟合效果。</p>
 <h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：  </p>
@@ -576,134 +580,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/01/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-01T09:49:18+08:00">
-                2019-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -750,7 +626,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
