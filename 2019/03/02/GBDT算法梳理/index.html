@@ -87,7 +87,7 @@
 <meta property="og:description" content="前向分布算法Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题 负梯度拟合为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png">
-<meta property="og:updated_time" content="2019-03-03T08:29:42.112Z">
+<meta property="og:updated_time" content="2019-03-03T08:31:31.180Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GBDT算法梳理">
 <meta name="twitter:description" content="前向分布算法Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题 负梯度拟合为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本">
@@ -302,7 +302,7 @@
 
       
         <h3 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h3><p>Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：<strong>从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。</strong><br><img src="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png" alt="4"><br>这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题</p>
-<h3 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h3><p>为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为<br>\(r_{ti} = -\bigg[\frac{\partial L(y_i, f(x_i)))}{\partial f(x_i)}\bigg]<em>{f(x) = f</em>{t-1}\;\; (x)}\)<br>利用(xi,rti)(i=1,2,..m),我们可以拟合一颗CART回归树，得到了第t颗回归树，其对应的叶节点区域Rtj,j=1,2,…,J。其中J为叶子节点的个数。<br>　　针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值ctj如下：<br>\(c_{tj} = \underbrace{arg\; min}<em>{c}\sum\limits</em>{x_i \in R_{tj}} L(y_i,f_{t-1}(x_i) +c)\)</p>
+<h3 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h3><p>为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为<br>$$r_{ti} = -\bigg[\frac{\partial L(y_i, f(x_i)))}{\partial f(x_i)}\bigg]<em>{f(x) = f</em>{t-1}\;\; (x)}$$<br>利用(xi,rti)(i=1,2,..m),我们可以拟合一颗CART回归树，得到了第t颗回归树，其对应的叶节点区域Rtj,j=1,2,…,J。其中J为叶子节点的个数。<br>　　针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值ctj如下：<br>$$c_{tj} = \underbrace{arg\; min}<em>{c}\sum\limits</em>{x_i \in R_{tj}} L(y_i,f_{t-1}(x_i) +c)$$</p>
 <h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>对于分类算法，其损失函数一般有对数损失函数和指数损失函数两种:<br>a) 如果是指数损失函数，则损失函数表达式为     </p>
 <p>L(y,f(x))=exp(−yf(x))  </p>
 <p>b) 如果是对数损失函数，分为二元分类和多元分类两种。<br>  对于回归算法，常用损失函数有如下4种:<br>a)均方差，这个是最常见的回归损失函数<br>L(y,f(x))=(y−f(x))^2<br>b)绝对损失，这个损失函数也很常见<br>L(y,f(x))=|y−f(x)|<br>对应负梯度误差为：<br>sign(yi−f(xi))<br>c)Huber损失，它是均方差和绝对损失的折衷产物，对于远离中心的异常点，采用绝对损失，而中心附近的点采用均方差。这个界限一般用分位数点度量。损失函数如下：  </p>
