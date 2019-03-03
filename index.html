@@ -300,7 +300,8 @@
       
         
           
-            <h3 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h3><p>Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：<strong>从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。</strong><br><img src="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png" alt="1"><br>这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题</p>
+            <p>GBDT(Gradient Boosting Decision Tree) 又叫 MART（Multiple Additive Regression Tree)，是一种迭代的决策树算法，该算法由多棵决策树组成，所有树的结论累加起来做最终答案。它在被提出之初就和SVM一起被认为是泛化能力（generalization)较强的算法。近些年更因为被用于搜索排序的机器学习模型而引起大家关注。  </p>
+<h3 id="前向分布算法"><a href="#前向分布算法" class="headerlink" title="前向分布算法"></a>前向分布算法</h3><p>Adaboost算法的模型可认为是加法模型，加法模型的优化通常是一个复杂的优化问题，前向分布算法求解这一优化问题的思路是：<strong>从前往后每一步只学习一个基函数及其系数，逐步逼近优化目标函数。</strong><br><img src="https://upload-images.jianshu.io/upload_images/1667471-10debca340107bc0.png" alt="1"><br>这样，前向分布算法将同时求解从m=1到M的所有参数βm, rm的优化问题简化为逐次求解各个βm, rm的优化问题</p>
 <h3 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h3><p>为了解决损失函数拟合方法的问题，Freidman提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppjs3vjij30bc02jgli.jpg" alt="2"></p>
 <p>利用(xi,rti)(i=1,2,..m),我们可以拟合一颗CART回归树，得到了第t颗回归树，其对应的叶节点区域Rtj,j=1,2,…,J。其中J为叶子节点的个数。<br>针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值ctj如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppm9yyqej30c8036jrb.jpg" alt="7"><br>这样我们就得到了本轮的决策树拟合函数如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppne2d7gj308z02ot8k.jpg" alt="8"><br>从而本轮最终得到的强学习器的表达式如下：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0ppo3ktk8j30am01z3yd.jpg" alt="9"><br>通过损失函数的负梯度来拟合，我们找到了一种通用的拟合损失误差的办法，这样无轮是分类问题还是回归问题，我们通过其损失函数的负梯度的拟合，就可以用GBDT来解决我们的分类回归问题。区别仅仅在于损失函数不同导致的负梯度不同而已。</p>
 <h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>对于分类算法，其损失函数一般有对数损失函数和指数损失函数两种:<br>a) 如果是指数损失函数，则损失函数表达式为     </p>
