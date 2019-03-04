@@ -229,6 +229,142 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/XGB算法梳理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/04/XGB算法梳理/" itemprop="url">XGB算法梳理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-04T16:38:30+08:00">
+                2019-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="CART树"><a href="#CART树" class="headerlink" title="CART树"></a>CART树</h2><p>分类回归树(classification and regression tree，CART)模型由Breiman等人在1984年提出，是应用广泛的决策树学习方法。CART同样由特征选择、树的生成以及剪枝组成，既可以用于分类也可以用于回归。同样属于决策树的一种。CART算法采用的是一种二分递归分割的技术，将当前样本分成两个子样本集，使得生成的非叶子节点都有两个分支。因此CART实际上是一颗二叉树。<br><strong>回归树的生成</strong><br>最小二乘法回归树生成算法<br>输入：训练数据集D<br>输出：回归树f(x)</p>
+<p>在训练数据集所在的输入空间中，递归得将每一个区域划分为两个子区域并决定每个子区域上的输出值，构建二叉决策树：  </p>
+<p>(1)选择最优切分变量j和切分点s，求解<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qwsk6uhdj30k8037jrd.jpg" alt="1"><br>遍历变量j，对固定的切分变量j扫描切分点s，选择使上式达到误差最小的变量(j,s)，其中R1和R2表示的是划分之后的空间。<br>(2)用选定的(j,s)划分区域并决定响应的输出值。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qwucr2mfj30iw070glp.jpg" alt="2"><br>(3)继续对两个子区域调用步骤(1),(2),直到满足停止条件。<br>(4)将输入空间划分为M个区域R1,R2,R3….RM，生成决策树：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qwvij1jwj309w037t8k.jpg" alt="3"><br><strong>分类树的生成</strong><br>分类树是用基尼指数选择最优特征，同时决定该特征的最优二值切分点。<br>基尼指数<br>分类问题中，假设有K个类，样本点属于第K类的概率为Pk，则概率分布的基尼指数定义为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qx7ovgm3j3092039a9x.jpg" alt="4"><br>对于二分类问题来说，若样本点属于第一类的·概率为p，则概率分布的基尼指数为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qx8ynyj2j309c02pweb.jpg" alt="5"><br>对于给定的样本集合D，其基尼指数为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxa9ay8rj30a202ymx1.jpg" alt="6"><br>其中，Ck是D中属于第k类的样本子集，K是类的个数。|Ck|和D分别表示子集的个数和样本的个数。<br>如果样本集合D根据特征A是否取某一可能的值α被分割成D1和D2，即<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxcuvrzxj30fz02swec.jpg" alt="7"><br>所以在特征A的条件下集合D的基尼指数为<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxdtar57j30fh02q747.jpg" alt="8"><br>其中基尼指数Gini(D)表示集合的不确定性，基尼指数G(D,A)表示A=a分解后集合的不决定性。基尼指数越大，样本集合的不确定性越大。<br>分类树生成算法<br>输入：训练数据集D,停止计算的条件<br>输出：CART决策树<br>具体步骤:<br>(1)计算现有特征对该数据集的基尼指数，对于每一个特征A，可以对样本点A是否为a可以将数据集D分成数据集D1,D2D1,D2。<br>(2)对于所有的特征A和所有可能的切分点a，选择基尼指数最小的特征以及相对应的切分点作为最优特征和最佳切分点。<br>(3)对最优子树递归调用(1)(2)，直到满足停止条件。<br>(4)生成CART分类树。    </p>
+<p><strong>剪枝处理</strong></p>
+<p>剪枝是决策树学习算法中对付过拟合的主要手段。主要是从已生成的书中剪掉一些子树或者叶子节点，并将根节点或者父节点作为新的叶子节点，从而简化分类树模型。决策树的剪枝往往是通过极小化决策树的整体损失函数或者代价函数。设树T的叶子节点数为|T|，叶子节点t上有Nt个样本点，其中k类的样本点数为Nkt，Ht(T)为结点t上的经验熵，αα&gt;=0为参数，所以损失函数定义为：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxh3xfv5j30u20gk0t7.jpg" alt="9"><br>C(T)表示对训练数据的预测误差，|T|表示模型的复杂度。损失函数其实正好表达了两者的平衡。</p>
+<p>所以决策树生成的具体流程：</p>
+<p>(1)计算每一个结点的经验熵Ta<br>(2)递归的从叶子节点开始往上遍历，减掉叶子节点，然后判断损失函数的值是否减少，如果减少，则将父节点作为新的叶子节点。<br>(3)重复(2)，直到完全不能剪枝。  </p>
+<h2 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h2><p>（1）定义树的复杂度<br>对于f的定义做一下细化，把树拆分成结构部分q和叶子权重部分w。下图是一个具体的例子。结构函数q把输入映射到叶子的索引号上面去，而w给定了每个索引号对应的叶子分数是什么。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxw8u7mkj30q90esq6h.jpg" alt="10"><br>定义这个复杂度包含了一棵树里面节点的个数，以及每个树叶子节点上面输出分数的L2模平方。当然这不是唯一的一种定义方式，不过这一定义方式学习出的树效果一般都比较不错。下图还给出了复杂度计算的一个例子。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxx3yl5oj30kg045mya.jpg" alt="11"><br>这一个目标包含了TT个相互独立的单变量二次函数。我们可以定义<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxy3eckuj307y01d0sj.jpg" alt="12"><br>化简：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxzbgoemj30dy021aa1.jpg" alt="13"><br>求导：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qxzuhru7j303d01kmwx.jpg" alt="14"><br>代入最优解：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qy0iuxb3j306v0160sj.jpg" alt="15"><br>（2）打分函数计算示例<br>Obj代表了当我们指定一个树的结构的时候，我们在目标上面最多减少多少。我们可以把它叫做结构分数(structure score)</p>
+<p>（3）枚举不同树结构的贪心法<br>贪心法：每一次尝试去对已有的叶子加入一个分割<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qy1gh3xuj30he04ct9f.jpg" alt="16"><br>对于每次扩展，我们还是要枚举所有可能的分割方案，如何高效地枚举所有的分割呢？我假设我们要枚举所有x &lt; a 这样的条件，对于某个特定的分割a我们要计算a左边和右边的导数和。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQgy1g0qy278v2bj30lg081409.jpg" alt="17"><br>我们可以发现对于所有的a，我们只要做一遍从左到右的扫描就可以枚举出所有分割的梯度和GL和GR。然后用上面的公式计算每个分割方案的分数就可以了。<br>观察这个目标函数，会发现引入分割不一定会使得情况变好，因为我们有一个引入新叶子的惩罚项。优化这个目标对应了树的剪枝， 当引入的分割带来的增益小于一个阀值的时候，我们可以剪掉这个分割。大家可以发现，当我们正式地推导目标的时候，像计算分数和剪枝这样的策略都会自然地出现，而不再是一种因为heuristic（启发式）而进行的操作了。  </p>
+<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><p>和GBDT方法一样，XGBoost的提升模型也是采用残差，不同的是分裂结点选取的时候不一定是最小平方损失，其损失函数如下，较GBDT其根据树模型的复杂度加入了一项正则化项：<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0qypdqmm3j30c9055aal.jpg" alt="19"></p>
+<h2 id="分裂结点算法"><a href="#分裂结点算法" class="headerlink" title="分裂结点算法"></a>分裂结点算法</h2><p>1、暴力枚举  </p>
+<p>2、近似方法 ，近似方法通过特征的分布，按照百分比确定一组候选分裂点，通过遍历所有的候选分裂点来找到最佳分裂点。<br> 两种策略：全局策略和局部策略。在全局策略中，对每一个特征确定一个全局的候选分裂点集合，就不再改变；而在局部策略中，每一次分裂 都要重选一次分裂点。前者需要较大的分裂集合，后者可以小一点。对比补充候选集策略与分裂点数目对模型的影响。 全局策略需要更细的分裂点才能和局部策略差不多<br>3、Weighted Quantile Sketch<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0qz5t6zutj30l709ajt5.jpg" alt="1"></p>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>1）像Adaboost和GBDT中一样，对每一个模型乘以一个系数λ（0 &lt; λ ≤ 1），用来降低每个模型对结果的贡献<br>2）采用特征子采样方法，和RandomForest中的特征子采样一样，可以降低模型的方差  </p>
+<h2 id="对缺失值处理"><a href="#对缺失值处理" class="headerlink" title="对缺失值处理"></a>对缺失值处理</h2><p>xgboost处理缺失值的方法和其他树模型不同。xgboost把缺失值当做稀疏矩阵来对待，本身的在节点分裂时不考虑的缺失值的数值。缺失值数据会被分到左子树和右子树分别计层损失，选择较优的那一个。如果训练中没有数据缺失，预测时出现了数据缺失，那么默认被分类到右子树。<br><img src="http://ww1.sinaimg.cn/large/005tJ8mQly1g0qylmcbqpj30cs0dc0y4.jpg" alt="18"><br>这样的处理方法固然巧妙，但也有风险：假设了训练数据和预测数据的分布相同，比如缺失值的分布也相同，不过直觉上应该影响不是很大。</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>与GBDT相比，xgBoosting有以下进步：<br>1）GBDT以传统CART作为基分类器，而xgBoosting支持线性分类器，相当于引入L1和L2正则化项的逻辑回归（分类问题）和线性回归（回归问题）；<br>2）GBDT在优化时只用到一阶导数，xgBoosting对代价函数做了二阶Talor展开，引入了一阶导数和二阶导数；<br>3）当样本存在缺失值是，xgBoosting能自动学习分裂方向；<br>4）xgBoosting借鉴RF的做法，支持列抽样，这样不仅能防止过拟合，还能降低计算；<br>5）xgBoosting的代价函数引入正则化项，控制了模型的复杂度，正则化项包含全部叶子节点的个数，每个叶子节点输出的score的L2模的平方和。从贝叶斯方差角度考虑，正则项降低了模型的方差，防止模型过拟合；<br>6）xgBoosting在每次迭代之后，为叶子结点分配学习速率，降低每棵树的权重，减少每棵树的影响，为后面提供更好的学习空间；<br>7）xgBoosting工具支持并行,但并不是tree粒度上的，而是特征粒度，决策树最耗时的步骤是对特征的值排序，xgBoosting在迭代之前，先进行预排序，存为block结构，每次迭代，重复使用该结构，降低了模型的计算；block结构也为模型提供了并行可能，在进行结点的分裂时，计算每个特征的增益，选增益最大的特征进行下一步分裂，那么各个特征的增益可以开多线程进行；<br>8）可并行的近似直方图算法，树结点在进行分裂时，需要计算每个节点的增益，若数据量较大，对所有节点的特征进行排序，遍历的得到最优分割点，这种贪心法异常耗时，这时引进近似直方图算法，用于生成高效的分割点，即用分裂后的某种值减去分裂前的某种值，获得增益，为了限制树的增长，引入阈值，当增益大于阈值时，进行分裂；<br>然而，与LightGBM相比，又表现出了明显的不足：<br>1）xgBoosting采用预排序，在迭代之前，对结点的特征做预排序，遍历选择最优分割点，数据量大时，贪心法耗时，LightGBM方法采用histogram算法，占用的内存低，数据分割的复杂度更低；<br>2）xgBoosting采用level-wise生成决策树，同时分裂同一层的叶子，从而进行多线程优化，不容易过拟合，但很多叶子节点的分裂增益较低，没必要进行跟进一步的分裂，这就带来了不必要的开销；LightGBM采用深度优化，leaf-wise生长策略，每次从当前叶子中选择增益最大的结点进行分裂，循环迭代，但会生长出更深的决策树，产生过拟合，因此引入了一个阈值进行限制，防止过拟合.</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>跟决策树一样，多应用于分类问题<br>行业应用、业务优化  </p>
+<h2 id="sklearn参数"><a href="#sklearn参数" class="headerlink" title="sklearn参数"></a>sklearn参数</h2><p>1）objective [ default=reg:linear ] 定义学习任务及相应的学习目标，可选的目标函数如下：<br>“reg:linear” –线性回归。<br>“reg:logistic” –逻辑回归。<br>“binary:logistic” –二分类的逻辑回归问题，输出为概率。<br>“binary:logitraw” –二分类的逻辑回归问题，输出的结果为wTx。<br>“count:poisson” –计数问题的poisson回归，输出结果为poisson分布。   在poisson回归中，max_delta_step的缺省值为0.7。(used to safeguard optimization)<br>“multi:softmax” –让XGBoost采用softmax目标函数处理多分类问题，同时需要设置参数num_class（类别个数）<br>“multi:softprob” –和softmax一样，但是输出的是ndata * nclass的向量，可以将该向量reshape成ndata 行nclass列的矩阵。没行数据表示样本所属于每个类别的概率。<br>“rank:pairwise” –set XGBoost to do ranking task by minimizing the pairwise loss<br>（2）’eval_metric’ The choices are listed below，评估指标:<br>“rmse”: root mean square error<br>“logloss”: negative log-likelihood<br>“error”: Binary classification error rate. It is calculated as #(wrong cases)/#(all cases). For the predictions, the evaluation will regard the instances with prediction value larger than 0.5 as positive instances, and the others as negative instances.<br>“merror”: Multiclass classification error rate. It is calculated as #(wrong cases)/#(all cases).<br>“mlogloss”: Multiclass logloss<br>“auc”: Area under the curve for ranking evaluation.<br>“ndcg”:Normalized Discounted Cumulative Gain<br>“map”:Mean average precision<br>“ndcg@n”,”map@n”: n can be assigned as an integer to cut off the top positions in the lists for evaluation.<br>“ndcg-“,”map-“,”ndcg@n-“,”map@n-“: In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions.<br>（3）lambda [default=0] L2 正则的惩罚系数<br>（4）alpha [default=0] L1 正则的惩罚系数<br>（5）lambda_bias 在偏置上的L2正则。缺省值为0（在L1上没有偏置项的正则，因为L1时偏置不重要）<br>（6）eta [default=0.3]<br>为了防止过拟合，更新过程中用到的收缩步长。在每次提升计算之后，算法会直接获得新特征的权重。 eta通过缩减特征的权重使提升计算过程更加保守。缺省值为0.3<br>取值范围为：[0,1]<br>（7）max_depth [default=6] 数的最大深度。缺省值为6 ，取值范围为：[1,∞]<br>（8）min_child_weight [default=1]<br>孩子节点中最小的样本权重和。如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束。在现行回归模型中，这个参数是指建立每个模型所需要的最小样本数。该成熟越大算法越conservative<br>取值范围为: [0,∞]</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/GBDT算法梳理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -627,7 +763,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
